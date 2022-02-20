@@ -32,6 +32,7 @@ class WallFollower:
         rospy.loginfo(data.angle_min)
         rospy.loginfo(data.angle_max)
         rospy.loginfo(data.angle_increment)
+        rospy.loginfo(len(data.ranges))
         # rospy.loginfo(data.ranges[270])
         # rospy.loginfo(data.ranges[90])
         command = AckermannDriveStamped()
