@@ -39,7 +39,7 @@ def follower():
     global rate
     rospy.init_node('drive_command_publisher')
     rate = rospy.Rate(20)
-    rospy.Subscriber("/LaserScan", LaserScan, callback)
+    rospy.Subscriber("/scan", LaserScan, callback)
     rospy.spin()
 
 
