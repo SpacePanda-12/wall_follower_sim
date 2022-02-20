@@ -23,14 +23,15 @@ class WallFollower:
         pass
 
     def callback(self, data):
-        if self.SIDE == 1:
-            lidar_data = np.array(data.ranges[90:135])
-        else:
-            lidar_data = np.array(data.ranges[270:315])
+        # if self.SIDE == 1:
+        #     lidar_data = np.array(data.ranges[90:135])
+        # else:
+        #     lidar_data = np.array(data.ranges[270:315])
 
         # 90 degrees corresponds to left, 270 corresponds to right
-        rospy.loginfo(data.ranges[270])
-        rospy.loginfo(data.ranges[90])
+        rospy.loginfo(data.ranges)
+        # rospy.loginfo(data.ranges[270])
+        # rospy.loginfo(data.ranges[90])
         command = AckermannDriveStamped()
         command.header.stamp = rospy.Time.now()
         # TODO do I need to use a different frame?
