@@ -12,7 +12,7 @@ class WallFollower:
     # i.e. self.CONSTANT
     SCAN_TOPIC = rospy.get_param("racecar_simulator/scan_topic")
     DRIVE_TOPIC = rospy.get_param("racecar_simulator/drive_topic")
-    SIDE = rospy.get_param("racecar_simulator/side", -1)
+    SIDE = rospy.get_param("racecar_simulator/side", -1) # +1 = left, -1 = right
     VELOCITY = rospy.get_param("racecar_simulator/velocity", 0.5)
     DESIRED_DISTANCE = rospy.get_param("racecar_simulator/desired_distance", 1)
 
@@ -29,10 +29,10 @@ class WallFollower:
         #     lidar_data = np.array(data.ranges[270:315])
 
         # 90 degrees corresponds to left, 270 corresponds to right
-        rospy.loginfo(data.angle_min)
-        rospy.loginfo(data.angle_max)
-        rospy.loginfo(data.angle_increment)
-        rospy.loginfo(len(data.ranges))
+        rospy.loginfo("Right Side")
+        rospy.loginfo(data.ranges[67:83])
+        rospy.loginfo("left side")
+        rospy.loginfo(data.ranges[16:32])
         # rospy.loginfo(data.ranges[270])
         # rospy.loginfo(data.ranges[90])
         command = AckermannDriveStamped()
