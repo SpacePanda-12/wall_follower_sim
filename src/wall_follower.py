@@ -12,9 +12,9 @@ class WallFollower:
     # i.e. self.CONSTANT
     SCAN_TOPIC = rospy.get_param("racecar_simulator/scan_topic")
     DRIVE_TOPIC = rospy.get_param("racecar_simulator/drive_topic")
-    SIDE = rospy.get_param("racecar_simulator/side")
-    VELOCITY = rospy.get_param("racecar_simulator/velocity")
-    DESIRED_DISTANCE = rospy.get_param("racecar_simulator/desired_distance")
+    SIDE = rospy.get_param("racecar_simulator/side", -1)
+    VELOCITY = rospy.get_param("racecar_simulator/velocity", 0.5)
+    DESIRED_DISTANCE = rospy.get_param("racecar_simulator/desired_distance", 1)
 
     def __init__(self):
         self.pub = rospy.Publisher('/drive', AckermannDriveStamped, queue_size=10)
