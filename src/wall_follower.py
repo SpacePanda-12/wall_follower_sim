@@ -29,7 +29,9 @@ class WallFollower:
         #     lidar_data = np.array(data.ranges[270:315])
 
         # 90 degrees corresponds to left, 270 corresponds to right
-        rospy.loginfo(data.ranges)
+        rospy.loginfo(data.angle_min)
+        rospy.loginfo(data.angle_max)
+        rospy.loginfo(data.angle_increment)
         # rospy.loginfo(data.ranges[270])
         # rospy.loginfo(data.ranges[90])
         command = AckermannDriveStamped()
