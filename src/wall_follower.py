@@ -10,11 +10,11 @@ class WallFollower:
     # Import ROS parameters from the "params.yaml" file.
     # Access these variables in class functions with self:
     # i.e. self.CONSTANT
-    SCAN_TOPIC = rospy.get_param("/wall_follower/scan_topic")
-    DRIVE_TOPIC = rospy.get_param("/wall_follower/drive_topic")
-    SIDE = rospy.get_param("/wall_follower/side")
-    VELOCITY = rospy.get_param("/wall_follower/velocity")
-    DESIRED_DISTANCE = rospy.get_param("/wall_follower/desired_distance")
+    SCAN_TOPIC = rospy.get_param("scan_topic")
+    DRIVE_TOPIC = rospy.get_param("wall_follower/drive_topic")
+    SIDE = rospy.get_param("wall_follower/side")
+    VELOCITY = rospy.get_param("wall_follower/velocity")
+    DESIRED_DISTANCE = rospy.get_param("wall_follower/desired_distance")
 
     def __init__(self):
         self.pub = rospy.Publisher('/drive', AckermannDriveStamped, queue_size=10)
