@@ -75,8 +75,8 @@ class WallFollower:
         angle_error = np.arctan(desired_point_y/desired_point_x)
 
         # polyfit returns numpy array for y = mx+b; [m, b] is what is returned.
-        p_gain = 0.05
-        d_gain = 0.06
+        p_gain = 0.005
+        d_gain = 0.006
 
         current_time = rospy.get_time()
         if self.previous_time == 0:
