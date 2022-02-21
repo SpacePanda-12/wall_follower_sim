@@ -71,7 +71,7 @@ class WallFollower:
         VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser")
 
         desired_point_y = lin_reg[0] * x_interval/2 + lin_reg[1]
-        desired_point_x = x_interval/2
+        desired_point_x = x_max
         angle_error = np.arctan(desired_point_y/desired_point_x)
 
         # polyfit returns numpy array for y = mx+b; [m, b] is what is returned.
@@ -92,7 +92,7 @@ class WallFollower:
         command.header.stamp = rospy.Time.now()
         # TODO do I need to use a different frame?
         command.header.frame_id = "base_link"
-        command.drive.steering_angle = 0
+        command.drive.steering_angle = angle_command
         command.drive.steering_angle_velocity = 0
         command.drive.speed = self.VELOCITY
         command.drive.acceleration = 0
