@@ -52,8 +52,22 @@ class WallFollower:
             angles.append(start_angle + angle_inc * i)
         angles = np.array(angles)
         # x = r cos(theta), y = r sin(theta)
-        x_coords = np.multiply(lidar_data, np.cos(angles))
-        y_coords = np.multiply(lidar_data, np.sin(angles))
+        x_coords_raw = np.multiply(lidar_data, np.cos(angles))
+        y_coords_raw = np.multiply(lidar_data, np.sin(angles))
+
+
+        lin_reg = np.polyfit(x_coords_raw, y_coords_raw, deg=1)
+        x_coords = []
+        y_coords = []
+        x_min = x_coords_raw[0]
+        x_max = x_coords_raw[-1]
+        x_diff = x_max - x_min
+        x_interval = x_diff / 16
+
+        for i in range(16):
+            x_coords.append(x_min + i * x_interval)
+            y_coords.append(lin_reg[0] * x_coords[i] + lin_reg[1])
+
         VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser")
 
 
