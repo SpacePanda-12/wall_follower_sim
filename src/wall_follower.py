@@ -36,7 +36,7 @@ class WallFollower:
         if self.SIDE == -1:
             # right side (negative angles)
             # this includes data points 16 through 31; 32 is cut off, same as 83 in the other case. len(lidar_data) = 16
-            lidar_data = np.array(data.ranges[58:83])
+            lidar_data = np.array(data.ranges[15:30])
             start_angle = angle_min + 25 * angle_inc
 
         else:
