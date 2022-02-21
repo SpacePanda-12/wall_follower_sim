@@ -102,7 +102,7 @@ class WallFollower:
         command.header.stamp = rospy.Time.now()
         # TODO do I need to use a different frame?
         command.header.frame_id = "base_link"
-        command.drive.steering_angle = 0.1
+        command.drive.steering_angle = 0
         command.drive.steering_angle_velocity = 0
         command.drive.speed = self.VELOCITY
         command.drive.acceleration = 0
