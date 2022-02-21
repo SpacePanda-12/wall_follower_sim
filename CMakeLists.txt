@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package()
 
 catkin_install_python(PROGRAMS
-   wall_follower.py
+   src/wall_follower.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

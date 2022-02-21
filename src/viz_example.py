@@ -8,7 +8,7 @@ from visualization_tools import *
 
 class LinePublisher:
     #the topics to publish and subscribe to
-    SCAN_TOPIC = rospy.get_param("wall_follower/scan_topic")
+    SCAN_TOPIC = rospy.get_param("racecar_simulator/scan_topic")
     WALL_TOPIC = "/wall"
     
     def __init__(self):
