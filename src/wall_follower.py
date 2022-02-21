@@ -4,6 +4,9 @@ import rospy
 from rospy.numpy_msg import numpy_msg
 from sensor_msgs.msg import LaserScan
 from ackermann_msgs.msg import AckermannDriveStamped
+from visualization_tools import *
+from rospy.numpy_msg import numpy_msg
+
 
 
 class WallFollower:
@@ -11,6 +14,7 @@ class WallFollower:
     # Access these variables in class functions with self:
     # i.e. self.CONSTANT
     SCAN_TOPIC = rospy.get_param("racecar_simulator/scan_topic")
+    WALL_TOPIC = "/wall"
     DRIVE_TOPIC = rospy.get_param("racecar_simulator/drive_topic")
     SIDE = rospy.get_param("racecar_simulator/side", -1) # +1 = left, -1 = right
     VELOCITY = rospy.get_param("racecar_simulator/velocity", 0.5)
@@ -18,7 +22,9 @@ class WallFollower:
 
     def __init__(self):
         self.pub = rospy.Publisher('/drive', AckermannDriveStamped, queue_size=10)
-        self.sub = rospy.Subscriber("/scan", LaserScan, self.callback)
+        self.line_pub = rospy.Publisher(self.WALL_TOPIC, Marker, queue_size=1)
+        self.sub = rospy.Subscriber(self.SCAN_TOPIC, LaserScan, self.callback)
+        # self.sub = rospy.Subscriber("/scan", LaserScan, self.callback)
         self.rate = rospy.Rate(20)
         self.previous_time = 0
         pass
@@ -38,28 +44,31 @@ class WallFollower:
             lidar_data = np.array(data.ranges[67:83])
             start_angle = angle_min + 67 * angle_min
 
-        # Create desired linear regression for ideal path where the correct SIDE is DESIRED_DISTANCE from the wall
-        desired_data = []
+        # going to pick a point desired distance away from median of wall line and make robot go there
+        # need to convert from polar to cartesian
+
         angles = []
         for i in range(16):
-            # Note: This works for both the left and right sides since the distances are the same and we
-            # are ignoring the specific angles here
-            desired_data.append(self.DESIRED_DISTANCE/np.sin(angle_min + (16 + i) * angle_inc))
             angles.append(start_angle + angle_inc * i)
-
-        desired_data = np.array(desired_data)
         angles = np.array(angles)
-        # polyfit returns numpy array for y = mx+b; [m, b] is what is returned.
-        desired_lin_reg = np.polyfit(angles, desired_data, deg=1)
-        current_lin_reg = np.polyfit(angles, lidar_data, deg=1)
-        rospy.loginfo(desired_lin_reg)
-        rospy.loginfo(current_lin_reg)
+        # x = r cos(theta), y = r sin(theta)
+        x_coords = np.multiply(lidar_data * np.cos(angles))
+        y_coords = np.multiply(lidar_data * np.sin(angles))
+        VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser")
 
-        offset_error = current_lin_reg[1] - desired_lin_reg[1]
-        angle_error = current_lin_reg[0] - desired_lin_reg[0]
+
+
+
+        # polyfit returns numpy array for y = mx+b; [m, b] is what is returned.
+        lin_reg = np.polyfit(angles, lidar_data, deg=1)
+
+        offset_error = 0
+        angle_error = 0
         p_gain = 0.05
         d_gain = 0.06
-        error = offset_error + angle_error
+        position_error = 0
+        angular_error = 0
+
 
         current_time = rospy.get_time()
         if self.previous_time == 0:
