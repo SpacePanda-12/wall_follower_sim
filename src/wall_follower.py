@@ -84,7 +84,7 @@ class WallFollower:
             angle_command = p_gain * angle_error
         else:
             dt = current_time - self.previous_time
-            angle_command = -(p_gain * angle_error + d_gain * angle_error / dt)
+            angle_command = (p_gain * angle_error + d_gain * angle_error / dt)
 
         self.previous_time = current_time
 
@@ -92,7 +92,7 @@ class WallFollower:
         command.header.stamp = rospy.Time.now()
         # TODO do I need to use a different frame?
         command.header.frame_id = "base_link"
-        command.drive.steering_angle = angle_command
+        command.drive.steering_angle = 0.05
         command.drive.steering_angle_velocity = 0
         command.drive.speed = self.VELOCITY
         command.drive.acceleration = 0
