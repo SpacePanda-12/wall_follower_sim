@@ -44,8 +44,8 @@ class WallFollower:
         for i in range(16):
             # Note: This works for both the left and right sides since the distances are the same and we
             # are ignoring the specific angles here
-            desired_data[i] = self.DESIRED_DISTANCE/np.sin(angle_min + (16 + i) * angle_inc)
-            angles[i] = start_angle + angle_inc * i
+            desired_data.append(self.DESIRED_DISTANCE/np.sin(angle_min + (16 + i) * angle_inc))
+            angles.append(start_angle + angle_inc * i)
 
         desired_data = np.array(desired_data)
         angles = np.array(angles)
