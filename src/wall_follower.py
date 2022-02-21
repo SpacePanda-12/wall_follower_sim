@@ -54,7 +54,7 @@ class WallFollower:
         # x = r cos(theta), y = r sin(theta)
         x_coords = np.multiply(lidar_data, np.cos(angles))
         y_coords = np.multiply(lidar_data, np.sin(angles))
-        VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser")
+        VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser", color="blue")
 
 
 
@@ -70,14 +70,14 @@ class WallFollower:
         angular_error = 0
 
 
-        current_time = rospy.get_time()
-        if self.previous_time == 0:
-            dt = 0
-            steering_angle_command = p_gain * error
-        else:
-            dt = current_time - self.previous_time
-            steering_angle_command = p_gain * error + d_gain * error / dt
-        self.previous_time = current_time
+        # current_time = rospy.get_time()
+        # if self.previous_time == 0:
+        #     dt = 0
+        #     steering_angle_command = p_gain * error
+        # else:
+        #     dt = current_time - self.previous_time
+        #     steering_angle_command = p_gain * error + d_gain * error / dt
+        # self.previous_time = current_time
 
 
 
