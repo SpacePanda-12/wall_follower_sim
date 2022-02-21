@@ -52,6 +52,8 @@ class WallFollower:
         # polyfit returns numpy array for y = mx+b; [m, b] is what is returned.
         desired_lin_reg = np.polyfit(angles, desired_data, deg=1)
         current_lin_reg = np.polyfit(angles, lidar_data, deg=1)
+        rospy.loginfo(desired_lin_reg)
+        rospy.loginfo(current_lin_reg)
 
         offset_error = current_lin_reg[1] - desired_lin_reg[1]
         angle_error = current_lin_reg[0] - desired_lin_reg[0]
@@ -62,7 +64,7 @@ class WallFollower:
         current_time = rospy.get_time()
         if self.previous_time == 0:
             dt = 0
-            steering_angle_command =  p_gain * error
+            steering_angle_command = p_gain * error
         else:
             dt = current_time - self.previous_time
             steering_angle_command = p_gain * error + d_gain * error / dt
@@ -77,7 +79,7 @@ class WallFollower:
         command.header.stamp = rospy.Time.now()
         # TODO do I need to use a different frame?
         command.header.frame_id = "base_link"
-        command.drive.steering_angle = steering_angle_command
+        command.drive.steering_angle = 0.1
         command.drive.steering_angle_velocity = 0
         command.drive.speed = self.VELOCITY
         command.drive.acceleration = 0
