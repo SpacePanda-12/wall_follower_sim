@@ -52,8 +52,8 @@ class WallFollower:
             angles.append(start_angle + angle_inc * i)
         angles = np.array(angles)
         # x = r cos(theta), y = r sin(theta)
-        x_coords = np.multiply(lidar_data * np.cos(angles))
-        y_coords = np.multiply(lidar_data * np.sin(angles))
+        x_coords = np.multiply(lidar_data, np.cos(angles))
+        y_coords = np.multiply(lidar_data, np.sin(angles))
         VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser")
 
 
