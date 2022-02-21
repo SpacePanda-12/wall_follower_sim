@@ -37,18 +37,18 @@ class WallFollower:
             # right side (negative angles)
             # this includes data points 16 through 31; 32 is cut off, same as 83 in the other case. len(lidar_data) = 16
             lidar_data = np.array(data.ranges[25:50])
-            start_angle = angle_min + 16 * angle_inc
+            start_angle = angle_min + 25 * angle_inc
 
         else:
             # left side (positive angles)
-            lidar_data = np.array(data.ranges[54:83])
-            start_angle = angle_min + 60 * angle_min
+            lidar_data = np.array(data.ranges[58:83])
+            start_angle = angle_min + 58 * angle_min
 
         # going to pick a point desired distance away from median of wall line and make robot go there
         # need to convert from polar to cartesian
 
         angles = []
-        for i in range(29):
+        for i in range(25):
             angles.append(start_angle + angle_inc * i)
         angles = np.array(angles)
         # x = r cos(theta), y = r sin(theta)
@@ -62,9 +62,9 @@ class WallFollower:
         x_min = x_coords_raw[0]
         x_max = x_coords_raw[-1]
         x_diff = x_max - x_min
-        x_interval = x_diff / 29
+        x_interval = x_diff / 25
 
-        for i in range(29):
+        for i in range(25):
             x_coords.append(x_min + i * x_interval)
             y_coords.append(lin_reg[0] * x_coords[i] + lin_reg[1])
 
