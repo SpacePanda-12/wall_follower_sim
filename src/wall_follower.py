@@ -36,7 +36,7 @@ class WallFollower:
         if self.SIDE == -1:
             # right side (negative angles)
             # this includes data points 16 through 31; 32 is cut off, same as 83 in the other case. len(lidar_data) = 16
-            lidar_data = np.array(data.ranges[25:40])
+            lidar_data = np.array(data.ranges[30:45])
             start_angle = angle_min + 25 * angle_inc
 
         else:
@@ -92,7 +92,7 @@ class WallFollower:
         command.header.stamp = rospy.Time.now()
         # TODO do I need to use a different frame?
         command.header.frame_id = "base_link"
-        command.drive.steering_angle = 0.05
+        command.drive.steering_angle = 0
         command.drive.steering_angle_velocity = 0
         command.drive.speed = self.VELOCITY
         command.drive.acceleration = 0
