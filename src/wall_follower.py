@@ -55,19 +55,22 @@ class WallFollower:
 
         offset_error = current_lin_reg[1] - desired_lin_reg[1]
         angle_error = current_lin_reg[0] - desired_lin_reg[0]
+        p_gain = 0.05
+        d_gain = 0.06
+        error = offset_error + angle_error
 
         current_time = rospy.get_time()
         if self.previous_time == 0:
             dt = 0
+            steering_angle_command =  p_gain * error
         else:
             dt = current_time - self.previous_time
+            steering_angle_command = p_gain * error + d_gain * error / dt
         self.previous_time = current_time
 
-        p_gain = 0.5
-        d_gain = 0.6
-        error = offset_error + angle_error
 
-        steering_angle_command = p_gain * error + d_gain * error / dt
+
+
 
 
         command = AckermannDriveStamped()
