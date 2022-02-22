@@ -36,8 +36,8 @@ class WallFollower:
         if self.SIDE == -1:
             # right side (negative angles)
             # this includes data points 16 through 31; 32 is cut off, same as 83 in the other case. len(lidar_data) = 16
-            lidar_data = np.array(data.ranges[35:50])
-            start_angle = angle_min + 25 * angle_inc
+            lidar_data = np.array(data.ranges[20:35])
+            start_angle = angle_min + 20 * angle_inc
 
         else:
             # left side (positive angles)
@@ -68,7 +68,7 @@ class WallFollower:
             x_coords.append(x_min + i * x_interval)
             y_coords.append(lin_reg[0] * x_coords[i] + lin_reg[1])
 
-        VisualizationTools.plot_line(x_coords, y_coords, self.line_pub, frame="/laser")
+        VisualizationTools.plot_line([0,1], [0,1], self.line_pub, frame="/laser")
 
         desired_point_y = lin_reg[0] * x_interval/2 + lin_reg[1]
         desired_point_x = x_max
